@@ -939,6 +939,7 @@ class Tester(unittest.TestCase):
                         )
                 )
         if os.path.exists(path):
+            print(path)
             if multipleOutputs:
                 return self.readGeopackage(path) if gpkgOutput else self.readGeojson(path)
             else:
