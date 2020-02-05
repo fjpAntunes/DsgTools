@@ -44,7 +44,7 @@ from DsgTools.core.Factories.LayerLoaderFactory.layerLoaderFactory import LayerL
 from qgis.testing import unittest
 
 class Tester(unittest.TestCase):
-    
+
     CURRENT_PATH = os.path.dirname(__file__)
     DEFAULT_ALG_PATH = os.path.join(
                             CURRENT_PATH, '..', 'core', 'DSGToolsProcessingAlgs',
@@ -123,7 +123,7 @@ class Tester(unittest.TestCase):
         for layer in ogr.Open(path):
             layername = layer.GetName()
             layers[layername] = QgsVectorLayer(
-                "{0}|layername={1}".format(path, layername), 
+                "{0}|layername={1}".format(path, layername),
                 layername,
                 "ogr"
             )
@@ -207,7 +207,7 @@ class Tester(unittest.TestCase):
                 self.addControlKey(vls[l])
             out.append(lyr)
         return out
-    
+
     def addControlKey(self, lyr):
         return processing.run(
                     'native:addautoincrementalfield',
@@ -252,6 +252,18 @@ class Tester(unittest.TestCase):
             "dsgtools:identifyduplicatedfeatures" : [
                 {
                     '__comment' : "'Normal' test: checks if it works.",
+                    'ATTRIBUTE_BLACK_LIST' : [],
+                    'FLAGS' : "memory:",
+                    'IGNORE_PK_FIELDS' : True,
+                    'IGNORE_VIRTUAL_FIELDS' : True,
+                    'INPUT' : self.getInputLayers(
+                            'sqlite', 'banco_capacitacao',
+                            ['cb_rel_ponto_cotado_altimetrico_p']
+                        )[0],
+                    'SELECTED' : False
+                },
+                {
+                    '__comment' : "'Test' test: checking if I can add a test through the parameters.",
                     'ATTRIBUTE_BLACK_LIST' : [],
                     'FLAGS' : "memory:",
                     'IGNORE_PK_FIELDS' : True,
@@ -355,7 +367,7 @@ class Tester(unittest.TestCase):
                             ['cb_veg_campo_a', 'cb_veg_floresta_a']
                         ),
                     'SELECTED' : False
-                    
+
                 }
             ],
 
@@ -474,7 +486,7 @@ class Tester(unittest.TestCase):
                     'TOLERANCE' : 625
                 }
             ],
-            
+
             "dsgtools:overlayelementswithareas" : [
                 {
                     '__comment' : "'Normal' test: checks if it works.",
@@ -499,7 +511,7 @@ class Tester(unittest.TestCase):
                     'SELECTED' : False
                 }
             ],
-            
+
             "dsgtools:dissolvepolygonswithsameattributes" : [
                 {
                     '__comment' : "'Normal' test: checks if it works.",
@@ -786,7 +798,7 @@ class Tester(unittest.TestCase):
                     )[0],
                     'OUTPUT_POLYGONS' : "memory:",
                     'FLAGS' : "memory:"
-                }  
+                }
             ],
             "dsgtools:identifyterrainmodelerrorsalgorithm" : [
                 {
@@ -889,10 +901,10 @@ class Tester(unittest.TestCase):
         if outputstr:
             out = out[outputstr]
         return out if not addControlKey else self.addControlKey(out)
-    
+
     def runAlgWithMultipleOutputs(self, algName, parameters, feedback=None, context=None):
         """
-        Executes a given algorithm that has multiple outputs. Returns a dict 
+        Executes a given algorithm that has multiple outputs. Returns a dict
         with the returned layers in the format {'OUTPUT_LAYER_KEY':(QgsVectorLayer) OutputLayer}
         :param algName: (str) target algorithm's name.
         :param parameters: (dict) set of arguments for target algorithm.
@@ -935,7 +947,7 @@ class Tester(unittest.TestCase):
                     'test_{test_number}.geojson'.format(test_number=test)
                 )
                 return QgsVectorLayer(
-                            path, 
+                            path,
                             "{alg}_test_{test}_output".format(alg=algName.split(':')[-1], test=test),
                             "ogr"
                         )
@@ -959,7 +971,7 @@ class Tester(unittest.TestCase):
         refFeatDict = {f.id():f for f in reference.getFeatures()}
         targetFeaureIds = set(targetFeatDict.keys())
         refFeaureIds = set(refFeatDict.keys())
-        if target.featureCount() != reference.featureCount():    
+        if target.featureCount() != reference.featureCount():
             msg = ""
             if targetFeaureIds - refFeaureIds:
                 msg += "Output layer has more features than the control layer (Exceeding ID: {idlist}).\n".format(
@@ -1073,7 +1085,7 @@ class Tester(unittest.TestCase):
                 )
         # missing the output testing
         return ""
-    
+
     def compareInputLayerWithOutputLayer(self, i, algName, output, expected, loadLayers=False, attributeBlackList=None, addControlKey=False):
         if not output.isValid():
             raise Exception("Output is an INVALID vector layer.".\
@@ -1145,7 +1157,7 @@ class Tester(unittest.TestCase):
             except KeyError:
                 results[alg] = "No tests registered."
         return results
-    
+
     def test_identifyoutofboundsangles(self):
         self.assertEqual(
             self.testAlg("dsgtools:identifyoutofboundsangles"), ""
@@ -1164,12 +1176,12 @@ class Tester(unittest.TestCase):
     #         self.assertEqual(
     #             self.testAlg("dsgtools:identifygaps"), ""
     #         )
-    
+
     def test_identifyandfixinvalidgeometries(self):
         self.assertEqual(
             self.testAlg("dsgtools:identifyandfixinvalidgeometries"), ""
         )
-    
+
     def test_identifyduplicatedfeatures(self):
         self.assertEqual(
             self.testAlg("dsgtools:identifyduplicatedfeatures"), ""
@@ -1184,7 +1196,7 @@ class Tester(unittest.TestCase):
         self.assertEqual(
             self.testAlg("dsgtools:identifyduplicatedlinesoncoverage"), ""
         )
-    
+
     def test_identifyduplicatedpointsoncoverage(self):
         self.assertEqual(
             self.testAlg("dsgtools:identifyduplicatedpointsoncoverage"), ""
@@ -1209,12 +1221,12 @@ class Tester(unittest.TestCase):
         self.assertEqual(
             self.testAlg("dsgtools:identifydangles"), ""
         )
-    
+
     def test_identifyunsharedvertexonintersectionsalgorithm(self):
         self.assertEqual(
             self.testAlg("dsgtools:identifyunsharedvertexonintersectionsalgorithm"), ""
         )
-    
+
     def test_identifyvertexnearedges(self):
         self.assertEqual(
             self.testAlg(
@@ -1223,27 +1235,27 @@ class Tester(unittest.TestCase):
                 multipleOutputs=True
             ), ""
         )
-    
+
     # def test_overlayelementswithareas(self):
     #     self.assertEqual(
     #         self.testAlg("dsgtools:overlayelementswithareas"), ""
     #     )
-    
+
     def test_deaggregategeometries(self):
         self.assertEqual(
             self.testAlg("dsgtools:deaggregategeometries", addControlKey=True), ""
         )
-    
+
     def test_dissolvepolygonswithsameattributes(self):
         self.assertEqual(
             self.testAlg("dsgtools:dissolvepolygonswithsameattributes", addControlKey=True), ""
         )
-    
+
     def test_removeemptyandupdate(self):
         self.assertEqual(
             self.testAlg("dsgtools:removeemptyandupdate"), ""
         )
-    
+
     def test_snaplayeronlayer(self):
         self.assertEqual(
             self.testAlg("dsgtools:snaplayeronlayer"), ""
@@ -1253,7 +1265,7 @@ class Tester(unittest.TestCase):
         self.assertEqual(
             self.testAlg("dsgtools:adjustnetworkconnectivity"), ""
         )
-    
+
     def test_unbuildpolygonsalgorithm(self):
         self.assertEqual(
             self.testAlg(
@@ -1264,7 +1276,7 @@ class Tester(unittest.TestCase):
             ),
             ""
         )
-    
+
     def test_buildpolygonsfromcenterpointsandboundariesalgorithm(self):
         self.assertEqual(
             self.testAlg(
