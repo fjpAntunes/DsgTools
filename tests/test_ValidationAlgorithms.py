@@ -1026,7 +1026,7 @@ class Tester(unittest.TestCase):
                 )
         try:
             for i, param in enumerate(parameters):
-                print("Teste #{num} - ".format(num = i) + param('__comment'))
+                print("Teste #{num} - ".format(num = i) + param['__comment'])
                 output = self.runAlgWithMultipleOutputs(algName, param, feedback, context) \
                     if multipleOutputs else self.runAlg(algName, param, feedback, context, addControlKey=addControlKey)
                 expected = self.expectedOutput(
