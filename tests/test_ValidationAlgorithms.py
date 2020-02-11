@@ -877,6 +877,16 @@ class Tester(unittest.TestCase):
                     'LINE_FLAGS' : "memory:"
                 }
             ],
+            "dsgtools:snaptogridandupdate": [
+            {
+                '__comment' : "'Normal' test: checks if it works.",
+                'INPUT' : self.getInputLayers(
+                        'sqlite', 'banco_capacitacao', ['cb_adm_edif_pub_civil_p']
+                    )[0],
+                'SELECTED' : False,
+                'TOLERANCE':10,
+            }
+            ],
             "dsgtools:ALG" : [
                 {
                     '__comment' : "'Normal' test: checks if it works."
@@ -1135,7 +1145,7 @@ class Tester(unittest.TestCase):
                 "dsgtools:lineonlineoverlayer", "dsgtools:mergelineswithsameattributeset",
                 "dsgtools:overlayelementswithareas", "dsgtools:deaggregategeometries",
                 "dsgtools:dissolvepolygonswithsameattributes", "dsgtools:removeemptyandupdate",
-                "dsgtools:snaplayeronlayer",
+                "dsgtools:snaplayeronlayer","dsgtools:snaptogridandupdate",
                 # network algs
                 "dsgtools:adjustnetworkconnectivity"
             ]
