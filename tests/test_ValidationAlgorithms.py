@@ -1307,10 +1307,15 @@ class Tester(unittest.TestCase):
             ),
             ""
         )
+    def test_snaptogridandupdate(self):
+        self.assertEqual(
+            self.testAlg("dsgtools:snaptogridandupdate",),
+            ""
+        )
 
-def run_all(filterString=None):
-    """Default function that is called by the runner if nothing else is specified"""
-    filterString = 'test_' if filterString is None else filterString
-    suite = unittest.TestSuite()
-    suite.addTests(unittest.makeSuite(Tester, filterString))
-    unittest.TextTestRunner(verbosity=3, stream=sys.stdout).run(suite)
+    def run_all(filterString=None):
+        """Default function that is called by the runner if nothing else is specified"""
+        filterString = 'test_' if filterString is None else filterString
+        suite = unittest.TestSuite()
+        suite.addTests(unittest.makeSuite(Tester, filterString))
+        unittest.TextTestRunner(verbosity=3, stream=sys.stdout).run(suite)
